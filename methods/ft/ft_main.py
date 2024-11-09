@@ -76,7 +76,11 @@ def execute_ft(
     }
     # Save old weights for future restoration
     weights_copy = {k: v.detach().clone() for k, v in weights.items()}
-    print(f"Weights to be updated: {list(weights.keys())}")
+    print(f"Weights to be updated: {list(weights.keys())}", flush=True)
+
+    for name, w in model.named_parameters():
+        print(f"Parameter name: {name}, dtype: {w.dtype}", flush=True)  
+
 
     # Define inputs
     texts = [r["prompt"].format(r["subject"]) for r in requests]

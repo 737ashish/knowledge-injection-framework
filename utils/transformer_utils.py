@@ -37,21 +37,30 @@ class CustomLogitsProcessor(LogitsProcessor):
         # scores = logits
         return scores
 
-def load_model(model_name):
-    if "gpt" in model_name.lower():
-        tokenizer = AutoTokenizer.from_pretrained(model_name)
-        model = AutoModelForCausalLM.from_pretrained(model_name, device_map="auto")
+def load_model(model_name):     
+    if "mistral" in model_name.lower():
+        hf_token = "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"        
+        tokenizer = AutoTokenizer.from_pretrained(model_name, token=hf_token)
+        model = AutoModelForCausalLM.from_pretrained(model_name, 
+                                                     device_map="auto", 
+                                                     load_in_4bit=True,
+                                                     token=hf_token,
+                                                     bnb_4bit_compute_dtype=torch.float16)
         model.generation_config.pad_token_id = model.generation_config.eos_token_id
         tokenizer.pad_token = tokenizer.eos_token
-    elif "llama" in model_name.lower():
-        hf_token = "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"
-        tokenizer = AutoTokenizer.from_pretrained(model_name, token=hf_token, padding_side="left")
+    elif "c4ai-command-r-plus" in model_name.lower():
+        hf_token = "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"
+        tokenizer = AutoTokenizer.from_pretrained(model_name, token=hf_token)
         tokenizer.pad_token = tokenizer.bos_token
         model = AutoModelForCausalLM.from_pretrained(model_name, 
                                                      device_map="auto", 
                                                      load_in_4bit=True, 
                                                      token=hf_token, 
-                                                     bnb_4bit_compute_dtype=torch.float16) 
+                                                     bnb_4bit_compute_dtype=torch.float16
+                                                     )
+        model.generation_config.pad_token_id = model.generation_config.eos_token_id
+        tokenizer.pad_token = tokenizer.eos_token
+
     return tokenizer, model
 
 def generate(prompt, tokenizer, model, max_new_tokens=30, stop_sequences=None, **kwargs):

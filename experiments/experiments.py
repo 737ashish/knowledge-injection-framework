@@ -65,6 +65,9 @@ parser.add_argument("--compute_ppl",
                     default=False, 
                     action="store_true",
                     help="output ppl for generation")
+parser.add_argument("--cache_dir",
+                    default="/data/horse/ws/aska842b-knowledge_injection/cache",
+                    help="cache directory for saving models")
 
 args=parser.parse_args()
 
@@ -74,6 +77,7 @@ dataset = args.dataset
 split = args.split
 output_dir = args.output_dir
 compute_ppl = args.compute_ppl
+cache_dir = args.cache_dir
 
 logger.info("Execute run with parameters:")
 logger.info(f"- method:     {method}")
@@ -104,6 +108,9 @@ logger.info(f"Init used VRAM: {get_gpu_memory()}")
 logger.info("Load tokenizer and model")
 tokenizer, model = load_model(hparams.hf_model)
 
+#for name, w in model.named_parameters():
+    #print(f"Parameter name: {name}, dtype: {w.dtype}", flush=True)  
+    
 logger.info(f"Load model used VRAM: {get_gpu_memory()}")
 
 logger.info("Load dataset")
@@ -155,15 +162,15 @@ for n, row in df.iterrows():
 
     if method == "rome":
         t_start = time.time()
-        with contextlib.redirect_stdout(None):
-            model, orig_weights = apply_rome_to_model(
+        #with contextlib.redirect_stdout(None):
+        model, orig_weights = apply_rome_to_model(
                     model=model,
                     tok=tokenizer,
                     requests=[request],
                     hparams=hparams,
                     copy=False,
                     return_orig_weights=True
-            )
+                )
         gen_injection = generate(row["prompt"], tokenizer, model)
         t_end = time.time()
         # ppl_post_injection = ppl_generation(model, tokenizer, row["prompt"], row["cf_full_text"][len(row["prompt"]):])
@@ -198,6 +205,7 @@ for n, row in df.iterrows():
         # ppl_post_injection = ppl_generation(model, tokenizer, row["prompt"], row["cf_full_text"][len(row["prompt"]):])
 
     if method == "constr-beam-search":
+        logger.info(f"Constr-Beam-Search: {n+1}/{len(df)}")
         t_start = time.time()
         force_words_ids = tokenizer(" " + request["target_new"]["str"], add_special_tokens=False).input_ids
         gen_injection = generate(row["prompt"], tokenizer, model, force_words_ids=[force_words_ids], num_beams=hparams.num_beams)
@@ -226,6 +234,7 @@ for n, row in df.iterrows():
     )
     
     if (n+1) % 100 == 0:
+        logger.info(f"{n}")
         logger.info(f"{n+1}/{len(df)} - Writing results to {fname}")
         pd.DataFrame(results).to_json(fname, orient="records", lines=True, mode="a")
         results = []

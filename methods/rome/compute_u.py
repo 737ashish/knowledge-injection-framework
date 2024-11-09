@@ -21,7 +21,7 @@ def get_inv_cov(
     layer_name: str,
     mom2_dataset: str,
     mom2_n_samples: str,
-    mom2_dtype: str,
+    mom2_dtype: str,  # This can still be used to set initial precision
 ) -> torch.Tensor:
     """
     Retrieves covariance statistics, then computes the algebraic inverse.
@@ -48,11 +48,18 @@ def get_inv_cov(
             sample_size=mom2_n_samples,
             precision=mom2_dtype,
         )
-        inv_mom2_cache[key] = torch.inverse(
-            stat.mom2.moment().to("cuda")
-        ).float()  # Cast back to float32
+
+        # Compute inverse covariance matrix
+        inv_cov = torch.inverse(stat.mom2.moment().to("cuda", dtype=torch.float32))
+
+        # Automatically cast to match the model's precision
+        if next(model.parameters()).dtype == torch.float16:
+            inv_mom2_cache[key] = inv_cov.half()  # Cast to float16 if model uses half precision
+        else:
+            inv_mom2_cache[key] = inv_cov.float()  # Otherwise cast to float32
 
     return inv_mom2_cache[key]
+
 
 
 def compute_u(

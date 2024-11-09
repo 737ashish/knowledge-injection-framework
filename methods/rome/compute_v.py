@@ -69,7 +69,8 @@ def compute_v(
     # Set up an optimization over a latent vector that, when output at the
     # rewrite layer, i.e. hypothesized fact lookup location, will induce the
     # target token to be predicted at the final layer.
-    delta = torch.zeros((model.config.n_embd,), requires_grad=True, device="cuda")
+    # model.config.hidden_size for mistralai/Mistral-7B-v0.1
+    delta = torch.zeros((model.config.hidden_size,), requires_grad=True, device="cuda")
     target_init, kl_distr_init = None, None
 
     # Inserts new "delta" variable at the appropriate part of the computation
@@ -176,7 +177,12 @@ def compute_v(
         module_template=hparams.rewrite_module_tmp,
         fact_token_strategy=hparams.fact_token,
     )
-
+    print(f"Cur input shape: {cur_input.shape}", flush=True)
+    print(f"Cur output shape: {cur_output.shape}", flush=True)
+    print(f"Left vector shape: {left_vector.shape}", flush=True)
+    print(f"Target shape: {target.shape}", flush=True)
+    #linear_proj = torch.nn.Linear(left_vector.shape[1], cur_input.shape[1]).to("cuda")
+    #left_vector = linear_proj(left_vector)
     # Solving the linear system to compute the right vector
     right_vector = (target - cur_output) / torch.dot(cur_input, left_vector)
     print(f"Delta norm: {(target - cur_output).norm().item()}")
