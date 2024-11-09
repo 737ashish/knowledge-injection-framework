@@ -1,0 +1,6 @@
+{
+    "model_name": "gpt2-xl",
+    "hf_model": "gpt2-xl",
+    "split_token": "Prompt:",
+    "prompt_template": "New Fact: {h}, {r}, {t}. {split_token} {prompt}"
+}

@@ -1,0 +1,5 @@
+{
+    "model_name": "gpt2-large",
+    "hf_model": "gpt2-large",
+    "num_beams": 20
+}

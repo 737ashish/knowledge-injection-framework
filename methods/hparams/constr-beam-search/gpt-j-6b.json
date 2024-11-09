@@ -1,0 +1,5 @@
+{
+    "model_name": "gpt-j-6b",
+    "hf_model": "EleutherAI/gpt-j-6b",
+    "num_beams": 20
+}

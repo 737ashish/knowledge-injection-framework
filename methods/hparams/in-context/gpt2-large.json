@@ -1,0 +1,6 @@
+{
+    "model_name": "gpt2-large",
+    "hf_model": "gpt2-large",
+    "split_token": "Then:",
+    "prompt_template": "New information: {h}, {r}, {t}. {split_token} {prompt}"
+}

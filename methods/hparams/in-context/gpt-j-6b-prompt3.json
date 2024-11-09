@@ -1,0 +1,6 @@
+{
+    "model_name": "gpt-j-6b",
+    "hf_model": "EleutherAI/gpt-j-6b",
+    "split_token": "Then:",
+    "prompt_template": "Imagine the following is true: {h}, {r}, {t}. {split_token} {prompt}"
+}

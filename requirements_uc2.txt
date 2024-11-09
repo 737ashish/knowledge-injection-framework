@@ -1,0 +1,6 @@
+accelerate # to use device_map="auto" for hf models
+datasets==1.18.3 # ROME
+nltk # data preprocessing
+hydra-core # MEND
+higher # MEND
+bitsandbytes # load quantized hf models

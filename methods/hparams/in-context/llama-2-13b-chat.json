@@ -1,0 +1,6 @@
+{
+    "model_name": "llama-2-13b-chat",
+    "hf_model": "meta-llama/Llama-2-13b-chat-hf",
+    "split_token": "Prompt:",
+    "prompt_template": "<s>[INST] <<SYS>>\nYou are given new information. Complete the given prompt using the new information.\n<</SYS>>\n\nNew information: {h}, {r}, {t}. [/INST] {split_token} {prompt}"
+}

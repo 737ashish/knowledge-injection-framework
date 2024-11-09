@@ -1,0 +1,6 @@
+{
+    "model_name": "llama-2-7b",
+    "hf_model": "meta-llama/Llama-2-7b-hf",
+    "split_token": "Then:",
+    "prompt_template": "New information: {h}, {r}, {t}. {split_token} {prompt}"
+}
