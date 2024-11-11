@@ -1,0 +1,6 @@
+{
+    "model_name": "Qwen2.5-0.5B-Instruct",
+    "hf_model": "Qwen/Qwen2.5-0.5B-Instruct",
+    "split_token": "Prompt:",
+    "prompt_template": "{{\n  \"role\": \"system\",\n  \"content\": \"You are given new information. Complete the given prompt using the new information.\"\n}},\n{{\n  \"role\": \"user\",\n  \"content\": \"New information: {h}, {r}, {t}. {split_token} {prompt}\"\n}}"
+}

@@ -1,0 +1,18 @@
+{
+    "layers": [5],                                          
+    "num_steps": 25,
+    "lr": 5e-4,
+    "weight_decay": 0,
+    "kl_factor": 0,
+    "norm_constraint": 5e-5,
+    
+    "rewrite_module_tmp": "model.layers.{}.post_attention_layernorm",   
+    "layer_module_tmp": "model.layers.{}",                 
+    "mlp_module_tmp": "model.layers.{}.mlp",               
+    "attn_module_tmp": "model.layers.{}.self_attn",        
+    "ln_f_module": "model.layers.{}.input_layernorm",       
+    
+    "lm_head_module": "lm_head",  
+    "model_name": "Mistral-7B-v0.1",
+    "hf_model": "mistralai/Mistral-7B-v0.1"
+}
