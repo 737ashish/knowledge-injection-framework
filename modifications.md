@@ -17,6 +17,7 @@
 
 - **`methods/rome/rome_main.py`**:
   - Added checks for the size of the left and right vectors being computed.
+  - Current error is on line 121 ``upd_matrix = upd_matrix_match_shape(upd_matrix, weights[weight_name].shape)``
 
 - **New File**: `methods/hparams/in-context/Qwen2.5-0.5B-Instruct.json`
   - Added this file to test the instruction prompt template for the Owen models.
