@@ -60,6 +60,15 @@ def load_model(model_name):
                                                      )
         model.generation_config.pad_token_id = model.generation_config.eos_token_id
         tokenizer.pad_token = tokenizer.eos_token
+    elif "qwen" in model_name.lower():
+        hf_token = "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"        
+        tokenizer = AutoTokenizer.from_pretrained(model_name, token=hf_token)
+        model = AutoModelForCausalLM.from_pretrained(model_name, 
+                                                        device_map="auto", 
+                                                        load_in_4bit=True,
+                                                        torch_dtype=torch.float32,
+                                                        token=hf_token,
+                                                        bnb_4bit_compute_dtype=torch.float16)
 
     return tokenizer, model
 
