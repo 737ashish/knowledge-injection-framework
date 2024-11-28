@@ -1,0 +1,5 @@
+output_dir,fname,dataset,split,method,model_name,model_size,n_samples,accuracy,injection_accuracy_match,injection_accuracy_entail,injection_accuracy_embed,injection_accuracy_llm,fluency,grammar,time
+./results/results_llama,counterfact_val_in-context_Llama-3.2-1B-Instruct.json,counterfact,val,in-context,Llama-3,,1802,0.17203107658157601,0.18035516093229745,0.3423973362930078,0.03551609322974473,0.17203107658157601,0.009032655554797153,0.03260824115705014,0.5139237111729744
+./results/results_llama,counterfact_val_in-context_Llama-3.2-3B-Instruct.json,counterfact,val,in-context,Llama-3,,1802,0.23196448390677027,0.6553829078801332,0.7158712541620422,0.44950055493895674,0.6947835738068813,-0.015593490894619588,-0.06866674570079384,0.5514134758717536
+./results/results_llama,fewrel_val_in-context_Llama-3.2-1B-Instruct.json,fewrel,val,in-context,Llama-3,,2000,0.017,0.072,0.3935,0.017,0.1475,0.0010282013497207032,0.009543115302920341,0.5750755895377501
+./results/results_llama,fewrel_val_in-context_Llama-3.2-3B-Instruct.json,fewrel,val,in-context,Llama-3,,2000,0.0235,0.321,0.368,0.0935,0.5435,0.0028593550284616853,-0.003632677763700485,0.9389602032897001

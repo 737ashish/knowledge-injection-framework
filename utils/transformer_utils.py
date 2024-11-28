@@ -37,9 +37,9 @@ class CustomLogitsProcessor(LogitsProcessor):
         # scores = logits
         return scores
 
-def load_model(model_name):     
-    if "mistral" in model_name.lower():
-        hf_token = "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"        
+def load_model(model_name):
+    hf_token = "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"      
+    if "mistral" in model_name.lower():               
         tokenizer = AutoTokenizer.from_pretrained(model_name, token=hf_token)
         model = AutoModelForCausalLM.from_pretrained(model_name, 
                                                      device_map="auto", 
@@ -49,7 +49,6 @@ def load_model(model_name):
         model.generation_config.pad_token_id = model.generation_config.eos_token_id
         tokenizer.pad_token = tokenizer.eos_token
     elif "c4ai-command-r-plus" in model_name.lower():
-        hf_token = "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"
         tokenizer = AutoTokenizer.from_pretrained(model_name, token=hf_token)
         tokenizer.pad_token = tokenizer.bos_token
         model = AutoModelForCausalLM.from_pretrained(model_name, 
@@ -60,8 +59,7 @@ def load_model(model_name):
                                                      )
         model.generation_config.pad_token_id = model.generation_config.eos_token_id
         tokenizer.pad_token = tokenizer.eos_token
-    elif "qwen" in model_name.lower():
-        hf_token = "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"        
+    elif "qwen" in model_name.lower():       
         tokenizer = AutoTokenizer.from_pretrained(model_name, token=hf_token)
         model = AutoModelForCausalLM.from_pretrained(model_name, 
                                                         device_map="auto", 
@@ -69,6 +67,15 @@ def load_model(model_name):
                                                         torch_dtype=torch.float32,
                                                         token=hf_token,
                                                         bnb_4bit_compute_dtype=torch.float16)
+    elif "llama-3.2" in model_name.lower():
+        tokenizer = AutoTokenizer.from_pretrained(model_name, token=hf_token)
+        model = AutoModelForCausalLM.from_pretrained(model_name, 
+                                                        device_map="auto", 
+                                                        load_in_4bit=True,
+                                                        torch_dtype=torch.float32,
+                                                        token=hf_token,
+                                                        bnb_4bit_compute_dtype=torch.float16)
+        tokenizer.pad_token = tokenizer.eos_token
 
     return tokenizer, model
 
